@@ -2,6 +2,10 @@ import express, {Express, Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import axios, { AxiosResponse } from 'axios'
+import { secureQueryEndpoint, smmQuery, speedQueryEndpoint } from './src/APIEndpoints'
+import { ParceSpeed } from './src/ResponsesParcing'
+import { MyResponse } from './src/dto/CustomResponse.dto'
 
 dotenv.config()
 
@@ -36,13 +40,43 @@ app.post('/', (req: Request, res: Response) => {
     return
   }
 
-  const url: string = setUpQuery(link)
+  const urlSpeed: string = speedQueryEndpoint(link)
+  // const urlSequre: string = secureQueryEndpoint(link, process.env.WHOISXMLKEY)
+  // const SMMConfig: object = smmQuery(link, process.env.SERPERKEY)
 
-  fetch(url)
-    .then(response => response.json())
-    .then(json => {
-      res.send(json.id)
+  const fetchSpeed: Promise<MyResponse> = fetch(urlSpeed).then(res => res.json())
+  // const fetchSequre: Promise<MyResponse> = fetch(urlSequre).then(res => res.json())
+  // const fetchSMM: Promise<AxiosResponse<any>> = axios(SMMConfig)
+
+  Promise.all([fetchSpeed])
+    .then((responses: MyResponse[]) => {
+      const [responseSpeed] = responses
+
+      // console.log('Response from fetchSpeed:', responseSpeed)
+      // console.log('Response from fetchSequre:', responseSequre)
+      // console.log('Response from fetchSMM:', responseSMM.data)
+
+      const resData: object = {speed: ParceSpeed(responseSpeed)}
+
+      res.send(JSON.stringify(resData))
     })
+    .catch(error => {
+      console.error('Error during fetch:', error)
+    })
+
+  // Promise.all([fetchSpeed, fetchSequre, fetchSMM])
+  //   .then((responses: MyResponse[]) => {
+  //     const [responseSpeed, responseSequre, responseSMM] = responses
+
+  //     console.log('Response from fetchSpeed:', responseSpeed)
+  //     // console.log('Response from fetchSequre:', responseSequre)
+  //     // console.log('Response from fetchSMM:', responseSMM.data)
+
+  //     res.send('parameters')
+  //   })
+  //   .catch(error => {
+  //     console.error('Error during fetch:', error)
+  //   })
 
 })
 
@@ -50,16 +84,3 @@ app.post('/', (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`Server is running on http://127.0.0.1:${port}/`)
 })
-
-function setUpQuery(link: string): string {
-  const api = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
-
-  const parameters = {
-    url: encodeURIComponent(link)
-  }
-
-  let query = `${api}?`
-  query += `url=${parameters.url}`
-
-  return query
-}
