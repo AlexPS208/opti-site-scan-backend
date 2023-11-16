@@ -1,4 +1,4 @@
-export function speedQueryEndpoint(link: string): string {
+export function speedQueryEndpoint(link: string, key: string | undefined): string {
   const api = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
   
   const parameters = {
@@ -6,7 +6,7 @@ export function speedQueryEndpoint(link: string): string {
   }
   
   let query = `${api}?`
-  query += `url=${parameters.url}`
+  query += `url=${parameters.url}&key=${key}`
   
   return query
 }

@@ -40,7 +40,7 @@ app.post('/', (req: Request, res: Response) => {
     return
   }
 
-  const urlSpeed: string = speedQueryEndpoint(link)
+  const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY)
   // const urlSequre: string = secureQueryEndpoint(link, process.env.WHOISXMLKEY)
   // const SMMConfig: object = smmQuery(link, process.env.SERPERKEY)
 
@@ -57,10 +57,6 @@ app.post('/', (req: Request, res: Response) => {
       res.send(JSON.stringify(resData))
     })
     .catch(error => {
-      axios.post('https://opti-site-scan-backend.vercel.app', {'link': link})
-        .then(response => res.send(response.data))
-        .catch(error => console.error('Error during fetch:' + error))
-
       console.error('Error during fetch:' + error)
     })
 
