@@ -3,9 +3,9 @@ import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import axios, { AxiosResponse } from 'axios'
-import { secureQueryEndpoint, smmQuery, speedQueryEndpoint } from './src/APIEndpoints'
-import { ParceSpeed } from './src/ResponsesParcing'
-import { MyResponse } from './src/dto/CustomResponse.dto'
+import { secureQueryEndpoint, smmQuery, speedQueryEndpoint } from '../src/APIEndpoints'
+import { ParceSpeed } from '../src/ResponsesParcing'
+import { MyResponse } from '../src/dto/CustomResponse.dto'
 
 dotenv.config()
 

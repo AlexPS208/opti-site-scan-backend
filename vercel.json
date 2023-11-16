@@ -1,15 +1,15 @@
 {
     "version": 2,
     "functions": {
-      "api/": {
-        "maxDuration": 10,
+      "api/*.js": {
+        "maxDuration": 20,
         "runtime": "@vercel/node@20.9.0"
       }
     },
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "index.ts",
+        "dest": "api/index.ts",
         "methods": [
           "GET",
           "POST",
