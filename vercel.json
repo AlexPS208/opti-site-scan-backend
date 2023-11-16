@@ -1,7 +1,7 @@
 {
     "version": 2,
     "functions": {
-      "api/users/**/*.js": {
+      "api/*.ts": {
         "maxDuration": 10,
         "runtime": "@vercel/node@20.9.0"
       }
