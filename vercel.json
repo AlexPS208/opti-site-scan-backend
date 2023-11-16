@@ -1,9 +1,11 @@
 {
     "version": 2,
     "functions": {
-        "maxDuration": 20,
-        "runtime": "@vercel/node",
-        "src": "index.ts"
+        "/": {
+            "maxDuration": 20,
+            "runtime": "@vercel/node",
+            "src": "index.ts"
+        }
       },
     "routes": [
         {
