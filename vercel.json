@@ -3,7 +3,7 @@
     "builds": [
         {
             "src": "index.ts",
-            "use": "@now/node-server",
+            "use": "@vercel/node",
             "config": {
               "maxDuration": 20
             }
