@@ -1,7 +1,7 @@
 {
     "version": 2,
     "functions": {
-        "/": {
+        "index/": {
             "maxDuration": 20,
             "runtime": "@vercel/node"
         }
