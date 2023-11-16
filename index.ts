@@ -57,6 +57,10 @@ app.post('/', (req: Request, res: Response) => {
       res.send(JSON.stringify(resData))
     })
     .catch(error => {
+      axios.post('https://opti-site-scan-backend.vercel.app', {'link': link})
+        .then(res => res.data)
+        .catch(error => console.error('Error during fetch:' + error))
+
       console.error('Error during fetch:' + error)
     })
 
