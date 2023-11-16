@@ -1,10 +1,12 @@
 {
     "version": 2,
-    "maxDuration": 30,
     "builds": [
         {
             "src": "index.ts",
-            "use": "@now/node-server"
+            "use": "@now/node-server",
+            "config": {
+              "maxDuration": 20
+            }
         }
     ],
     "routes": [
