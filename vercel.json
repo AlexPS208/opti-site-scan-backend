@@ -16,5 +16,10 @@
                 "DELETE"
             ]
         }
-    ]
+    ],
+    "functions": {
+        "index": {
+          "maxDuration": 20
+        }
+      }
 }
