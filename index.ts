@@ -36,7 +36,7 @@ app.post('/', (req: Request, res: Response) => {
   const link: string | undefined = req.body.link
 
   if (!link) {
-    res.status(300).send()
+    res.status(400).send()
     return
   }
 
@@ -52,16 +52,12 @@ app.post('/', (req: Request, res: Response) => {
     .then((responses: MyResponse[]) => {
       const [responseSpeed] = responses
 
-      // console.log('Response from fetchSpeed:', responseSpeed)
-      // console.log('Response from fetchSequre:', responseSequre)
-      // console.log('Response from fetchSMM:', responseSMM.data)
-
       const resData: object = {speed: ParceSpeed(responseSpeed)}
 
       res.send(JSON.stringify(resData))
     })
     .catch(error => {
-      res.status(500).send('Error during fetch:' + error)
+      console.error('Error during fetch:' + error)
     })
 
   // Promise.all([fetchSpeed, fetchSequre, fetchSMM])
