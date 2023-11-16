@@ -1,20 +1,20 @@
 {
     "version": 2,
     "functions": {
-        "index/": {
-            "maxDuration": 20,
-            "runtime": "@vercel/node"
-        }
-      },
+      "api/index": {
+        "maxDuration": 10,
+        "runtime": "@vercel/node"
+      }
+    },
     "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "index.ts",
-            "methods": [
-                "GET",
-                "POST",
-                "DELETE"
-            ]
-        }
+      {
+        "src": "/(.*)",
+        "dest": "index.ts",
+        "methods": [
+          "GET",
+          "POST",
+          "DELETE"
+        ]
+      }
     ]
-}
+  }
