@@ -3,7 +3,7 @@
     "functions": {
       "api/index": {
         "maxDuration": 10,
-        "runtime": "@vercel/node"
+        "runtime": "@vercel/node@20.9.0"
       }
     },
     "routes": [
