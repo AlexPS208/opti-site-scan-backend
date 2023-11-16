@@ -61,7 +61,7 @@ app.post('/', (req: Request, res: Response) => {
       res.send(JSON.stringify(resData))
     })
     .catch(error => {
-      console.error('Error during fetch:', error)
+      res.status(500).send('Error during fetch:' + error)
     })
 
   // Promise.all([fetchSpeed, fetchSequre, fetchSMM])
