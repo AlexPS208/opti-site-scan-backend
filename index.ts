@@ -40,33 +40,40 @@ app.post('/', (req: Request, res: Response) => {
     return
   }
 
+  // For request only from Google PageSpeed Insight API 
+
   const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY)
-  // const urlSequre: string = secureQueryEndpoint(link, process.env.WHOISXMLKEY)
-  // const SMMConfig: object = smmQuery(link, process.env.SERPERKEY)
-
   const fetchSpeed: Promise<MyResponse> = fetch(urlSpeed).then(res => res.json())
-  // const fetchSequre: Promise<MyResponse> = fetch(urlSequre).then(res => res.json())
-  // const fetchSMM: Promise<AxiosResponse<any>> = axios(SMMConfig)
-
-  Promise.all([fetchSpeed])
-    .then((responses: MyResponse[]) => {
-      const [responseSpeed] = responses
-
-      const resData: object = {speed: ParceSpeed(responseSpeed)}
-
+  
+  fetchSpeed
+    .then((response: MyResponse) => {
+      const resData: object = {speed: ParceSpeed(response)}
       res.send(JSON.stringify(resData))
     })
     .catch(error => {
       console.error('Error during fetch:' + error)
     })
 
+
+    //
+    // For 3 APIs requests (without data processing)
+    //
+
+  // const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY)
+  // const urlSequre: string = secureQueryEndpoint(link, process.env.WHOISXMLKEY)
+  // const SMMConfig: object = smmQuery(link, process.env.SERPERKEY)
+
+  // const fetchSpeed: Promise<MyResponse> = fetch(urlSpeed).then(res => res.json())
+  // const fetchSequre: Promise<MyResponse> = fetch(urlSequre).then(res => res.json())
+  // const fetchSMM: Promise<AxiosResponse<any>> = axios(SMMConfig)
+
   // Promise.all([fetchSpeed, fetchSequre, fetchSMM])
   //   .then((responses: MyResponse[]) => {
   //     const [responseSpeed, responseSequre, responseSMM] = responses
 
   //     console.log('Response from fetchSpeed:', responseSpeed)
-  //     // console.log('Response from fetchSequre:', responseSequre)
-  //     // console.log('Response from fetchSMM:', responseSMM.data)
+  //     console.log('Response from fetchSequre:', responseSequre)
+  //     console.log('Response from fetchSMM:', responseSMM.data)
 
   //     res.send('parameters')
   //   })

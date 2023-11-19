@@ -6,10 +6,7 @@ export function speedQueryEndpoint(link: string, key: string | undefined): strin
   }
   
   let query = `${api}?`
-  query += `url=${parameters.url}`
-  if (key) {
-    query += `&key=${key}`
-  }
+  query += `url=${parameters.url}${key? '&key='+key : ''}&strategy=DESKTOP`
   
   return query
 }
