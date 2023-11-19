@@ -1,9 +1,8 @@
 import express, {Express, Request, Response } from 'express'
 import bodyParser from 'body-parser'
-import fetch  from 'node-fetch'
 import dotenv from 'dotenv'
 import cors from 'cors'
-// import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 // import { secureQueryEndpoint, smmQuery } from './src/APIEndpoints'
 import { speedQueryEndpoint } from './src/APIEndpoints'
 import { ParceSpeed } from './src/ResponsesParcing'
@@ -44,21 +43,37 @@ app.post('/', (req: Request, res: Response) => {
 
   const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY || '')
 
-  fetch(urlSpeed)
-    .then<MyResponse>(res => {
-      if (!res.ok) {
-        throw new Error(`Ошибка запроса: ${res.status} ${res.statusText}`)
+  axios.get(urlSpeed)
+    .then(response => {
+      if (!response.data) {
+        throw new Error(`Ошибка запроса: ${response.status} ${response.statusText}`)
       }
-      return res.json() as Promise<MyResponse>
+      return response.data
     })
-    .then((response: MyResponse) => {
-      const resData: object = { speed: ParceSpeed(response) }
+    .then((data) => {
+      const resData = { speed: ParceSpeed(data) }
       res.send(JSON.stringify(resData))
     })
     .catch(error => {
       console.error('Ошибка при запросе данных:', error)
       res.status(500).send(JSON.stringify({ error: 'Ошибка при запросе данных' }))
     })
+
+  // fetch(urlSpeed)
+  //   .then<MyResponse>(res => {
+  //     if (!res.ok) {
+  //       throw new Error(`Ошибка запроса: ${res.status} ${res.statusText}`)
+  //     }
+  //     return res.json() as Promise<MyResponse>
+  //   })
+  //   .then((response: MyResponse) => {
+  //     const resData: object = { speed: ParceSpeed(response) }
+  //     res.send(JSON.stringify(resData))
+  //   })
+  //   .catch(error => {
+  //     console.error('Ошибка при запросе данных:', error)
+  //     res.status(500).send(JSON.stringify({ error: 'Ошибка при запросе данных' }))
+  //   })
 })
 
 
