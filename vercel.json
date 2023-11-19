@@ -5,7 +5,7 @@
             "src": "index.ts",
             "use": "@vercel/node",
             "config": {
-              "maxDuration": 2000
+              "maxDuration": 20000
             }
         }
     ],
@@ -15,8 +15,7 @@
         "dest": "index.ts",
         "methods": [
           "GET",
-          "POST",
-          "DELETE"
+          "POST"
         ]
       }
     ]
