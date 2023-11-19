@@ -4,8 +4,8 @@
         {
             "src": "index.ts",
             "use": "@vercel/node",
-            "config": {
-              "maxDuration": 20000
+            "./*.ts": {
+              "maxDuration": 60
             }
         }
     ],
@@ -18,5 +18,10 @@
           "POST"
         ]
       }
-    ]
+    ],
+    "functions": {
+      "./*.ts": {
+        "maxDuration": 60
+      }
+    }
   }
