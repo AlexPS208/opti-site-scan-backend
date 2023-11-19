@@ -33,27 +33,49 @@ app.get('/', (req: Request, res: Response) => {
 
 
 app.post('/', (req: Request, res: Response) => {
-  const link: string | undefined = req.body.link
+  const link: string | undefined = req.body.link;
 
   if (!link) {
-    res.status(400).send()
-    return
+    res.status(400).send();
+    return;
   }
+
+  const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY || '');
+
+  fetch(urlSpeed)
+    .then<MyResponse>(res => {
+      if (!res.ok) {
+        throw new Error(`Ошибка запроса: ${res.status} ${res.statusText}`);
+      }
+      return res.json() as Promise<MyResponse>;
+    })
+    .then((response: MyResponse) => {
+      const resData: object = { speed: ParceSpeed(response) };
+      res.send(JSON.stringify(resData));
+    })
+    .catch(error => {
+      console.error('Ошибка при запросе данных:', error);
+      res.status(500).send(JSON.stringify({ error: 'Ошибка при запросе данных' }));
+    });
+});
+
 
   // For request only from Google PageSpeed Insight API 
 
-  const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY)
-  const fetchSpeed: Promise<MyResponse> = fetch(urlSpeed).then(res => res.json())
+  // const fetchSpeed: Promise<MyResponse> = fetch(urlSpeed).then(res => res.json())
+  // const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY)
   
-  fetchSpeed
-    .then((response: MyResponse) => {
-      const resData: object = {speed: ParceSpeed(response)}
-      res.send(JSON.stringify(resData))
-    })
-    .catch(error => {
-      res.status(500).send(error)
-    })
-
+  // fetch(urlSpeed)
+  // .then(res => res.json())
+  // .then((response: MyResponse) => {
+  //   const resData: object = { speed: ParceSpeed(response) };
+    
+  //   res.send(JSON.stringify(resData));
+  // })
+  // .catch(error => {
+  //   console.error('Ошибка при запросе данных:', error);
+  //   res.send(JSON.stringify({ error: 'Ошибка при запросе данных' }));
+  // });
 
     //
     // For 3 APIs requests (without data processing)
@@ -81,7 +103,8 @@ app.post('/', (req: Request, res: Response) => {
   //     console.error('Error during fetch:', error)
   //   })
 
-})
+// })
+
 
 
 app.listen(port, () => {

@@ -1,6 +1,6 @@
-import { MyData } from './dto/CustomResponse.dto'
+import { MyData, MyResponse } from './dto/CustomResponse.dto'
 
-export function ParceSpeed(data: MyData): MyData {
+export function ParceSpeed(data: MyResponse): MyData {
   const resData: MyData = {}
 
   resData['lighthouseResult'] = data.lighthouseResult
