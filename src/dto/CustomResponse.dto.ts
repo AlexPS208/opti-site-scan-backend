@@ -4,5 +4,15 @@ export interface MyResponse {
 }
 
 export interface MyData {
-  lighthouseResult?: object
+  lighthouseResult?: LighthouseResult
+}
+
+interface LighthouseResult {
+  audits?: Audits,
+  'fullPageScreenshot'?: object
+}
+
+interface Audits {
+  'screenshot-thumbnails'?: object,
+  'final-screenshot'?: object
 }
