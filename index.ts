@@ -2,8 +2,9 @@ import express, {Express, Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import axios, { AxiosResponse } from 'axios'
-import { secureQueryEndpoint, smmQuery, speedQueryEndpoint } from './src/APIEndpoints'
+// import axios, { AxiosResponse } from 'axios'
+// import { secureQueryEndpoint, smmQuery } from './src/APIEndpoints'
+import { speedQueryEndpoint } from './src/APIEndpoints'
 import { ParceSpeed } from './src/ResponsesParcing'
 import { MyResponse } from './src/dto/CustomResponse.dto'
 
@@ -33,75 +34,78 @@ app.get('/', (req: Request, res: Response) => {
 
 
 app.post('/', (req: Request, res: Response) => {
-  const link: string | undefined = req.body.link;
+  const link: string | undefined = req.body.link
 
   if (!link) {
-    res.status(400).send();
-    return;
+    res.status(400).send()
+    return
   }
 
-  const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY || '');
+  const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY || '')
 
   fetch(urlSpeed)
     .then<MyResponse>(res => {
       if (!res.ok) {
-        throw new Error(`Ошибка запроса: ${res.status} ${res.statusText}`);
+        throw new Error(`Ошибка запроса: ${res.status} ${res.statusText}`)
       }
-      return res.json() as Promise<MyResponse>;
+      return res.json() as Promise<MyResponse>
     })
     .then((response: MyResponse) => {
-      const resData: object = { speed: ParceSpeed(response) };
-      res.send(JSON.stringify(resData));
+      const resData: object = { speed: ParceSpeed(response) }
+      res.send(JSON.stringify(resData))
     })
     .catch(error => {
-      console.error('Ошибка при запросе данных:', error);
-      res.status(500).send(JSON.stringify({ error: 'Ошибка при запросе данных' }));
-    });
-});
+      console.error('Ошибка при запросе данных:', error)
+      res.status(500).send(JSON.stringify({ error: 'Ошибка при запросе данных' }))
+    })
+})
 
 
-  // For request only from Google PageSpeed Insight API 
+//
+// For request only from Google PageSpeed Insight API 
+//
 
-  // const fetchSpeed: Promise<MyResponse> = fetch(urlSpeed).then(res => res.json())
-  // const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY)
+// const fetchSpeed: Promise<MyResponse> = fetch(urlSpeed).then(res => res.json())
+// const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY)
   
-  // fetch(urlSpeed)
-  // .then(res => res.json())
-  // .then((response: MyResponse) => {
-  //   const resData: object = { speed: ParceSpeed(response) };
+// fetch(urlSpeed)
+// .then(res => res.json())
+// .then((response: MyResponse) => {
+//   const resData: object = { speed: ParceSpeed(response) };
     
-  //   res.send(JSON.stringify(resData));
-  // })
-  // .catch(error => {
-  //   console.error('Ошибка при запросе данных:', error);
-  //   res.send(JSON.stringify({ error: 'Ошибка при запросе данных' }));
-  // });
+//   res.send(JSON.stringify(resData));
+// })
+// .catch(error => {
+//   console.error('Ошибка при запросе данных:', error);
+//   res.send(JSON.stringify({ error: 'Ошибка при запросе данных' }));
+// });
 
-    //
-    // For 3 APIs requests (without data processing)
-    //
 
-  // const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY)
-  // const urlSequre: string = secureQueryEndpoint(link, process.env.WHOISXMLKEY)
-  // const SMMConfig: object = smmQuery(link, process.env.SERPERKEY)
+//
+// For 3 APIs requests (without data processing)
+//
 
-  // const fetchSpeed: Promise<MyResponse> = fetch(urlSpeed).then(res => res.json())
-  // const fetchSequre: Promise<MyResponse> = fetch(urlSequre).then(res => res.json())
-  // const fetchSMM: Promise<AxiosResponse<any>> = axios(SMMConfig)
+// const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY)
+// const urlSequre: string = secureQueryEndpoint(link, process.env.WHOISXMLKEY)
+// const SMMConfig: object = smmQuery(link, process.env.SERPERKEY)
 
-  // Promise.all([fetchSpeed, fetchSequre, fetchSMM])
-  //   .then((responses: MyResponse[]) => {
-  //     const [responseSpeed, responseSequre, responseSMM] = responses
+// const fetchSpeed: Promise<MyResponse> = fetch(urlSpeed).then(res => res.json())
+// const fetchSequre: Promise<MyResponse> = fetch(urlSequre).then(res => res.json())
+// const fetchSMM: Promise<AxiosResponse<any>> = axios(SMMConfig)
 
-  //     console.log('Response from fetchSpeed:', responseSpeed)
-  //     console.log('Response from fetchSequre:', responseSequre)
-  //     console.log('Response from fetchSMM:', responseSMM.data)
+// Promise.all([fetchSpeed, fetchSequre, fetchSMM])
+//   .then((responses: MyResponse[]) => {
+//     const [responseSpeed, responseSequre, responseSMM] = responses
 
-  //     res.send('parameters')
-  //   })
-  //   .catch(error => {
-  //     console.error('Error during fetch:', error)
-  //   })
+//     console.log('Response from fetchSpeed:', responseSpeed)
+//     console.log('Response from fetchSequre:', responseSequre)
+//     console.log('Response from fetchSMM:', responseSMM.data)
+
+//     res.send('parameters')
+//   })
+//   .catch(error => {
+//     console.error('Error during fetch:', error)
+//   })
 
 // })
 

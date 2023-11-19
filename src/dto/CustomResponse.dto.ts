@@ -1,8 +1,8 @@
 export interface MyResponse {
-    data?: any,
+    data?: object,
     lighthouseResult: object
 }
 
 export interface MyData {
-  lighthouseResult?: any
+  lighthouseResult?: object
 }
