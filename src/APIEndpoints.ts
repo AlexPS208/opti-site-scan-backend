@@ -1,5 +1,5 @@
 export function speedQueryEndpoint(link: string, key: string | undefined): string {
-  const api = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
+  const api = 'https://www.googleapis.com/pagespeedonline/v1/runPagespeed'
   
   const parameters = {
     url: encodeURIComponent(link)
