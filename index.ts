@@ -1,5 +1,6 @@
 import express, {Express, Request, Response } from 'express'
 import bodyParser from 'body-parser'
+import fetch  from 'node-fetch'
 import dotenv from 'dotenv'
 import cors from 'cors'
 // import axios, { AxiosResponse } from 'axios'
