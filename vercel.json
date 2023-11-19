@@ -20,6 +20,8 @@
       }
     ],
     "functions": {
-        "maxDuration": 60
+      "maxDuration": {
+        "duration": 60
+      }
     }
   }
