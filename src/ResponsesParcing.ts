@@ -4,6 +4,8 @@ export function ParceSpeed(data: MyResponse): MyData {
   const resData: MyData = {}
 
   resData.lighthouseResult = data.lighthouseResult
+  resData.loadingExperience = data.loadingExperience
+  resData.originLoadingExperience = data.originLoadingExperience
 
   // Delete encoded screenshots
   if (resData.lighthouseResult.audits) {

@@ -1,10 +1,14 @@
 export interface MyResponse {
     data?: object,
-    lighthouseResult: object
+    lighthouseResult: object,
+    loadingExperience: object,
+    originLoadingExperience: object
 }
 
 export interface MyData {
-  lighthouseResult?: LighthouseResult
+  lighthouseResult?: LighthouseResult,
+  loadingExperience?: object,
+  originLoadingExperience?: object
 }
 
 interface LighthouseResult {
