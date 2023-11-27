@@ -1,22 +1,26 @@
 export interface MyResponse {
     data?: object,
-    lighthouseResult: object,
+    lighthouseResult: LighthouseResult,
     loadingExperience: object,
     originLoadingExperience: object
 }
 
 export interface MyData {
-  lighthouseResult?: LighthouseResult,
-  loadingExperience?: object,
-  originLoadingExperience?: object
+  lighthouseResult: LighthouseResult,
+  loadingExperience: object,
+  originLoadingExperience: object
 }
 
-interface LighthouseResult {
+export interface LighthouseResult {
   audits?: Audits,
   'fullPageScreenshot'?: object
 }
 
-interface Audits {
-  'screenshot-thumbnails'?: object,
-  'final-screenshot'?: object
+export interface Audits {
+  [key: string]: {
+    'score'?: number | null;
+  } & (
+    | { 'screenshot-thumbnails'?: object }
+    | { 'final-screenshot'?: object }
+  );
 }

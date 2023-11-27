@@ -6,7 +6,7 @@ import axios from 'axios'
 // import { secureQueryEndpoint, smmQuery } from './src/APIEndpoints'
 import { speedQueryEndpoint } from './src/APIEndpoints'
 import { ParceSpeed } from './src/ResponsesParcing'
-import { MyResponse } from './src/dto/CustomResponse.dto'
+// import { MyResponse } from './src/dto/CustomResponse.dto'
 
 dotenv.config()
 
@@ -46,7 +46,7 @@ app.post('/', (req: Request, res: Response) => {
   axios.get(urlSpeed)
     .then(response => {
       if (!response.data) {
-        throw new Error(`Ошибка запроса: ${response.status} ${response.statusText}`)
+        throw new Error(`!!! The request failed: ${response.status} ${response.statusText}`)
       }
       return response.data
     })
@@ -55,46 +55,10 @@ app.post('/', (req: Request, res: Response) => {
       res.send(JSON.stringify(resData))
     })
     .catch(error => {
-      console.error('Ошибка при запросе данных:', error)
-      res.status(500).send(JSON.stringify({ error: 'Ошибка при запросе данных' }))
+      console.error('!!! Error when requesting data:', error)
+      res.status(500).send(JSON.stringify({ error: '!!! Error when requesting data' }))
     })
-
-  // fetch(urlSpeed)
-  //   .then<MyResponse>(res => {
-  //     if (!res.ok) {
-  //       throw new Error(`Ошибка запроса: ${res.status} ${res.statusText}`)
-  //     }
-  //     return res.json() as Promise<MyResponse>
-  //   })
-  //   .then((response: MyResponse) => {
-  //     const resData: object = { speed: ParceSpeed(response) }
-  //     res.send(JSON.stringify(resData))
-  //   })
-  //   .catch(error => {
-  //     console.error('Ошибка при запросе данных:', error)
-  //     res.status(500).send(JSON.stringify({ error: 'Ошибка при запросе данных' }))
-  //   })
 })
-
-
-//
-// For request only from Google PageSpeed Insight API 
-//
-
-// const fetchSpeed: Promise<MyResponse> = fetch(urlSpeed).then(res => res.json())
-// const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY)
-  
-// fetch(urlSpeed)
-// .then(res => res.json())
-// .then((response: MyResponse) => {
-//   const resData: object = { speed: ParceSpeed(response) };
-    
-//   res.send(JSON.stringify(resData));
-// })
-// .catch(error => {
-//   console.error('Ошибка при запросе данных:', error);
-//   res.send(JSON.stringify({ error: 'Ошибка при запросе данных' }));
-// });
 
 
 //
