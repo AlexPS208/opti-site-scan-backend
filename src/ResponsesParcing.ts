@@ -28,7 +28,7 @@ function filterLighthouseResult(result: LighthouseResult): LighthouseResult {
     for (const key in filteredResult.audits) {
       const audit = filteredResult.audits[key]
 
-      if (audit.score !== null) {
+      if (audit.score !== null && audit.score !== 0) {
         filteredAudits[key] = audit
       }
     }
