@@ -13,6 +13,7 @@ export interface MyData {
 
 export interface LighthouseResult {
   audits?: Audits,
+  categories?: Categories,
   'fullPageScreenshot'?: object
 }
 
@@ -23,4 +24,13 @@ export interface Audits {
     | { 'screenshot-thumbnails'?: object }
     | { 'final-screenshot'?: object }
   );
+}
+
+export interface Categories {
+  accessibility: Categoria,
+  performance: Categoria
+}
+
+export interface Categoria {
+  auditRefs: Array<{id: string, weight: number}>
 }

@@ -1,17 +1,30 @@
-import { MyData, MyResponse, LighthouseResult, Audits } from './dto/CustomResponse.dto'
+import { MyData, MyResponse, LighthouseResult, Audits, Categories, Categoria} from './dto/CustomResponse.dto'
 
-export function ParceSpeed(data: MyResponse): MyData {
-  const resData: MyData = {
-    lighthouseResult: filterLighthouseResult(data.lighthouseResult),
-    loadingExperience: data.loadingExperience,
-    originLoadingExperience: data.originLoadingExperience
-  }
-  
-  delete resData.lighthouseResult['fullPageScreenshot']
 
-  return resData
+const filterAuditRefs = (auditRefs: Array<{ id: string, weight: number }>): Array<{ id: string, weight: number }> => {
+  return auditRefs.filter(auditRef => auditRef.weight !== 0)
 }
- 
+
+// Функция для фильтрации объектов в категории с weight !== 0
+const filterCategoria = (categoria: Categoria): Categoria => {
+  return {
+    auditRefs: filterAuditRefs(categoria.auditRefs),
+  }
+}
+
+const filterCategories = (categories?: Categories): Categories | undefined => {
+  if (!categories) {
+    return undefined
+  }
+
+  const filteredCategories: Categories = {
+    accessibility: filterCategoria(categories.accessibility),
+    performance: filterCategoria(categories.performance),
+  }
+
+  return filteredCategories
+}
+
 
 function filterLighthouseResult(result: LighthouseResult): LighthouseResult {
   const filteredResult: LighthouseResult = { ...result }
@@ -36,5 +49,23 @@ function filterLighthouseResult(result: LighthouseResult): LighthouseResult {
     filteredResult.audits = filteredAudits
   }
 
+  if (filteredResult.categories) {
+    filteredResult.categories = filterCategories(filteredResult.categories)
+  }
+
   return filteredResult
+}
+
+
+
+export function ParceSpeed(data: MyResponse): MyData {
+  const resData: MyData = {
+    lighthouseResult: filterLighthouseResult(data.lighthouseResult),
+    loadingExperience: data.loadingExperience,
+    originLoadingExperience: data.originLoadingExperience
+  }
+  
+  delete resData.lighthouseResult['fullPageScreenshot']
+
+  return resData
 }
