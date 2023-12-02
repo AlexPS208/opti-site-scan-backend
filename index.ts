@@ -55,6 +55,7 @@ app.post('/sendpdf/', upload.single('file'), (req: Request, res: Response) => {
 
   const name: string | undefined = req.body.name
   const gmail: string | undefined = req.body.gmail
+  const link: string | undefined = req.body.link
 
   if(!gmail) {
     res.status(500).send('No gmail in request')
@@ -66,14 +67,14 @@ app.post('/sendpdf/', upload.single('file'), (req: Request, res: Response) => {
     to: gmail, 
     subject: 'Site Speed Analitics',
     html: `<span style="font-size:18px; color: #000">
-      Hello, ${name? name : 'user'}, there's your speed analitics.
+      Hello, ${name? name : 'user'}, there's your speed analitics${link? ' for '+link : ''}.
     </span><br>
     <span style="color: #000">
       Message generated automatically. Please do not reply to this letter.
     </span>`,
     attachments: [
       {
-        filename: 'Speed Analytics.pdf',
+        filename: `Speed Analytics${link? ' - '+link : ''}.pdf`,
         content: pdfBuffer
       },
     ],
