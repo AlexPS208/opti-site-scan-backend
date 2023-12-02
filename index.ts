@@ -2,11 +2,7 @@ import express, {Express, Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import axios from 'axios'
-// import { secureQueryEndpoint, smmQuery } from './src/APIEndpoints'
-import { speedQueryEndpoint } from './src/APIEndpoints'
-import { ParceSpeed } from './src/ResponsesParcing'
-// import { MyResponse } from './src/dto/CustomResponse.dto'
+import { ApiResponse, UseGoogleAPI } from './src/controllers/googleAPI'
 
 dotenv.config()
 
@@ -29,68 +25,17 @@ app.use(cors({
 
 
 app.get('/', (req: Request, res: Response) => {
-  res.status(201).send()
+  res.status(204).send()
 })
-
 
 app.post('/', (req: Request, res: Response) => {
-  const link: string | undefined = req.body.link
-
-  if (!link) {
-    res.status(400).send()
-    return
-  }
-
-  const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY || '')
-
-  axios.get(urlSpeed)
-    .then(response => {
-      if (!response.data) {
-        throw new Error(`!!! The request failed: ${response.status} ${response.statusText}`)
-      }
-      return response.data
-    })
-    .then((data) => {
-      const resData = { speed: ParceSpeed(data) }
-      res.send(JSON.stringify(resData))
-    })
-    .catch(error => {
-      console.error('!!! Error when requesting data:', error)
-      res.status(500).send(JSON.stringify({ error: '!!! Error when requesting data' }))
-    })
+  const response: Promise<ApiResponse> = UseGoogleAPI(req)
+  response.then( response => 
+    res.status(response.status).send(response.response)
+  )
 })
-
-
-//
-// For 3 APIs requests (without data processing)
-//
-
-// const urlSpeed: string = speedQueryEndpoint(link, process.env.GOOGLEINSIGHTKEY)
-// const urlSequre: string = secureQueryEndpoint(link, process.env.WHOISXMLKEY)
-// const SMMConfig: object = smmQuery(link, process.env.SERPERKEY)
-
-// const fetchSpeed: Promise<MyResponse> = fetch(urlSpeed).then(res => res.json())
-// const fetchSequre: Promise<MyResponse> = fetch(urlSequre).then(res => res.json())
-// const fetchSMM: Promise<AxiosResponse<any>> = axios(SMMConfig)
-
-// Promise.all([fetchSpeed, fetchSequre, fetchSMM])
-//   .then((responses: MyResponse[]) => {
-//     const [responseSpeed, responseSequre, responseSMM] = responses
-
-//     console.log('Response from fetchSpeed:', responseSpeed)
-//     console.log('Response from fetchSequre:', responseSequre)
-//     console.log('Response from fetchSMM:', responseSMM.data)
-
-//     res.send('parameters')
-//   })
-//   .catch(error => {
-//     console.error('Error during fetch:', error)
-//   })
-
-// })
-
 
 
 app.listen(port, () => {
-  console.log(`Server is running on http://127.0.0.1:${port}/`)
+  console.log('Server is running')
 })

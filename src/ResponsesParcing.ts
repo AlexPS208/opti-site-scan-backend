@@ -58,7 +58,7 @@ function filterLighthouseResult(result: LighthouseResult): LighthouseResult {
 
 
 
-export function ParceSpeed(data: MyResponse): MyData {
+export function ParseSpeed(data: MyResponse): MyData {
   const resData: MyData = {
     lighthouseResult: filterLighthouseResult(data.lighthouseResult),
     loadingExperience: data.loadingExperience,

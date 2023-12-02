@@ -43,13 +43,16 @@ export function smmQuery(link: string, key: string | undefined): object {
 }
 
 
-
 function getDomainFromUrl(url: string): string | null {
   try {
     const urlObject = new URL(url)
     return urlObject.hostname
-  } catch (error: any) {
-    console.error('Invalid URL:', error.message)
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error('Invalid URL:', error.message)
+    } else {
+      console.error('An unknown error occurred')
+    }
     return null
   }
 }
