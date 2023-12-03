@@ -50,7 +50,6 @@ app.post('/', (req: Request, res: Response) => {
 
 // Отправка письма со статистикой на электронную почту
 app.post('/sendpdf/', upload.single('file'), (req: Request, res: Response) => {
-  console.log(req)
   SendStatistic(transporter, req, req.file!.buffer)
     .then( response => 
       res.status(response.status).send()

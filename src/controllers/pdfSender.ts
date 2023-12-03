@@ -6,11 +6,6 @@ export const SendStatistic = async (transporter: Transporter, req: Request, buff
   const name: string | undefined = req.body.name
   const gmail: string | undefined = req.body.gmail
   const link: string | undefined = req.body.link
-
-  console.log(name)
-  console.log(gmail)
-  console.log(link)
-  console.log(buffer)
   
   if(!gmail) {
     return {
