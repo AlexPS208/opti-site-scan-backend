@@ -2,13 +2,7 @@ import { Request } from 'express'
 import { ParseSpeed } from '../ResponsesParcing'
 import axios from 'axios'
 import { speedQueryEndpoint } from '../APIEndpoints'
-
-export type ApiResponse = {
-    status: number;
-    response?: string;
-    err?: string;
-  };
-
+import { ApiResponse } from '../dto/ApiResponse.dto'
 
 export const UseGoogleAPI = (req: Request): Promise<ApiResponse> => {
   const link: string | undefined = req.body.link
