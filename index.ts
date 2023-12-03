@@ -6,7 +6,6 @@ import { UseGoogleAPI } from './src/controllers/googleAPI'
 import multer, { Multer, StorageEngine } from 'multer'
 import nodemailer, { Transporter } from 'nodemailer'
 import { SendStatistic } from './src/controllers/pdfSender'
-import { ApiResponse } from './src/dto/ApiResponse.dto'
 
 dotenv.config()
 
@@ -43,18 +42,18 @@ const transporter: Transporter = nodemailer.createTransport({
 
 // Обращение к Google Page Speed Insight API
 app.post('/', (req: Request, res: Response) => {
-  const response: Promise<ApiResponse> = UseGoogleAPI(req)
-  response.then( response => 
-    res.status(response.status).send(response.response)
-  )
+  UseGoogleAPI(req)
+    .then( response => 
+      res.status(response.status).send(response.response)
+    )
 })
 
 // Отправка письма со статистикой на электронную почту
 app.post('/sendpdf/', upload.single('file'), (req: Request, res: Response) => {
-  const response = SendStatistic(transporter, req, req.file!.buffer)
-  response.then( response => 
-    res.status(response.status).send()
-  )
+  SendStatistic(transporter, req, req.file!.buffer)
+    .then( response => 
+      res.status(response.status).send()
+    )
 })
 
 
