@@ -1,5 +1,6 @@
 import { Request } from 'express'
 import nodemailer, {Transporter} from 'nodemailer'
+import { messageHtml } from '../GmailMessage'
 import { ApiResponse } from '../dto/ApiResponse.dto'
 
 export const SendStatistic = async (transporter: Transporter, req: Request, buffer: Buffer): Promise<ApiResponse> => {
@@ -20,12 +21,7 @@ export const SendStatistic = async (transporter: Transporter, req: Request, buff
     from: process.env.GMAILNAME,
     to: gmail, 
     subject: 'Site Speed Analitics',
-    html: `<span style="font-size:18px; color: #000">
-        Hello, ${name? name : 'user'}, there's your speed analitics${link? ' for '+link : ''}.
-      </span><br>
-      <span style="color: #000">
-        Message generated automatically. Please do not reply to this letter.
-      </span>`,
+    html: messageHtml(name? name:undefined, link? link:undefined),
     attachments: [
       {
         filename: `Speed Analytics${link? ' - '+link : ''}.pdf`,
