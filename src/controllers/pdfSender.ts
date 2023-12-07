@@ -21,13 +21,13 @@ export const SendStatistic = async (transporter: Transporter, req: Request, buff
     from: process.env.GMAILNAME,
     to: gmail, 
     subject: 'Site Speed Analitics',
-    html: messageHtml(name? name:undefined, link? link:undefined),
+    html: messageHtml(name? name:undefined),
     attachments: [
       {
         filename: `Speed Analytics${link? ' - '+link : ''}.pdf`,
         content: buffer
-      },
-    ],
+      }
+    ]
   }
   
   // send mail
