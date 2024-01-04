@@ -22,7 +22,7 @@ app.use(bodyParser.raw())
 
 // Setting CORS
 app.use(cors({
-  origin: '*',
+  origin: 'https://opti-site-scan.vercel.app/*',
   methods: ['POST']
 }))
 
